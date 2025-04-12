@@ -112,7 +112,7 @@ const BikeLandingPage = () => {
           <div className="nearby-places">
             <h2>Nearby Bike Mechanics</h2>
             <div className="places-grid">
-              <LoadScript googleMapsApiKey="AIzaSyChzhBmLC8-RtoSGRyo1RAh0cm9qTTlyMk">
+              <LoadScript googleMapsApiKey="GOOGLE_MAP_API_KEY">
                 {nearbyPlaces.map((place) => (
                   <motion.div
                     key={place.id}
@@ -125,7 +125,7 @@ const BikeLandingPage = () => {
                       <img
                         src={
                           place.photo_reference
-                            ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photo_reference}&key=AIzaSyChzhBmLC8-RtoSGRyo1RAh0cm9qTTlyMk`
+                            ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photo_reference}&key=GOOGLE_MAP_API_KEY`
                             : defaultCarMechanic
                         }
                         alt={place.name}
