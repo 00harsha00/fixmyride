@@ -1,0 +1,139 @@
+/* styles/ServicesSection.css */
+.services-section {
+    padding: 3rem 2rem;
+    background-color: #f8fafc; /* Light background for contrast */
+    position: relative; /* For positioning the arrows */
+  }
+  
+  .services-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+    color: #1e3a8a; /* Blue to match the theme */
+    font-weight: 700;
+    margin-left: 2rem; /* Align with the cards */
+  }
+  
+  .services-grid {
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    scroll-behavior: smooth; /* Smooth scrolling */
+    gap: 2rem;
+    padding: 0 2rem;
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+  }
+  
+  .services-grid::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in Chrome, Safari, Edge */
+  }
+  
+  .service-card {
+    flex: 0 0 280px; /* Fixed width for each card */
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-10px); /* Lift effect on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+  }
+  
+  .service-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .service-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .service-card:hover .service-image {
+    transform: scale(1.05); /* Slight zoom effect on image hover */
+  }
+  
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(30, 58, 138, 0.2); /* Subtle blue overlay */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .service-card:hover .image-overlay {
+    opacity: 1; /* Show overlay on hover */
+  }
+  
+  .service-content {
+    padding: 1.5rem;
+    text-align: center;
+  }
+  
+  .service-content h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1e3a8a; /* Blue to match the theme */
+    margin: 0;
+    transition: color 0.3s ease;
+  }
+  
+  .service-card:hover .service-content h3 {
+    color: #2563eb; /* Slightly lighter blue on hover */
+  }
+  
+  /* Stylish Arrows for Services */
+  .service-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #1e3a8a; /* Blue background */
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Circular arrows */
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .service-arrow:hover {
+    background-color: #2563eb; /* Lighter blue on hover */
+    transform: translateY(-50%) scale(1.1); /* Slight scale-up on hover */
+  }
+  
+  .service-arrow-left {
+    left: 0;
+  }
+  
+  .service-arrow-right {
+    right: 0;
+  }
+
+  .nav-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .nav-button:hover {
+    text-decoration: underline;
+  }

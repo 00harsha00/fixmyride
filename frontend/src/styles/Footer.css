@@ -1,0 +1,105 @@
+/* styles/Footer.css */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  background-color: #1e3a8a; /* Blue background to match the theme */
+  color: white;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #a3bffa; /* Lighter blue on hover */
+}
+
+.footer-social {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.social-icon {
+  font-size: 1.5rem;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.footer-social a:hover .social-icon {
+  color: #a3bffa; /* Lighter blue on hover */
+}
+
+.back-to-top {
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-to-top:hover {
+  background-color: white;
+  color: #1e3a8a;
+}
+
+/* Customer Reviews Section */
+.customer-reviews {
+  padding: 3rem 2rem;
+  background-color: #f8fafc; /* Light background for contrast */
+  text-align: center;
+}
+
+.customer-reviews h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #1e3a8a; /* Blue to match the theme */
+  font-weight: 700;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.review-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.review-card p {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.review-card h4 {
+  font-size: 1rem;
+  color: #1e3a8a;
+  font-weight: 600;
+}
