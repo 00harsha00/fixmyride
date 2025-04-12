@@ -14,6 +14,7 @@ import superbike4 from '../assets/superbike4.jpg';
 import superbike5 from '../assets/superbike5.jpg';
 import superbike6 from '../assets/superbike6.jpg';
 import defaultCarMechanic from '../assets/defaultCarMechanic.jpg'; // Default image for Bike Mechanics
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const BikeLandingPage = () => {
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
@@ -22,6 +23,7 @@ const BikeLandingPage = () => {
 
   // Use exactly 4 images for the 2x2 grid
   const images = [superbike1, superbike5, superbike3, superbike4, superbike2, superbike6];
+
 
   const handleGetStarted = () => {
     setLoading(true);
@@ -34,7 +36,7 @@ const BikeLandingPage = () => {
 
         const type = 'bike_repair || bicycle_repair'; // Updated type for bike repair (Google Places API uses 'bicycle_store' or similar)
         const response = await fetch(
-          `http://localhost:5000/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${type}`
+          `${API_BASE_URL}/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${type}`
         );
 
         const nearbyData = await response.json();

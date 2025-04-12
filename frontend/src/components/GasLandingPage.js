@@ -15,6 +15,8 @@ import electricCar5 from '../assets/electricCar5.jpg';
 import electricCar6 from '../assets/electricCar6.jpg'; // Use relevant images for gas stations
 import defaultCarMechanic from '../assets/defaultCarMechanic.jpg'; // Default image (consider renaming to defaultGasStation)
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const GasLandingPage = () => {
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
   const [loading, setLoading] = useState(false);

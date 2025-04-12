@@ -14,6 +14,8 @@ import supercar5 from '../assets/supercar5.jpg';
 import supercar6 from '../assets/supercar6.jpg';
 import defaultCarMechanic from '../assets/defaultCarMechanic.jpg';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const CarLandingPage = () => {
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
