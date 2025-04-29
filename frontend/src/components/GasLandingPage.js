@@ -43,7 +43,7 @@ const GasLandingPage = () => {
 
         const type = 'gas_station'; // Type for electric vehicle charging stations
         const response = await fetch(
-          `http://localhost:5000/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${type}`
+          `${API_BASE_URL}/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${type}`
         );
 
         const nearbyData = await response.json();
