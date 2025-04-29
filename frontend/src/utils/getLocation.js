@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // src/utils/getLocation.js
 const getLocationAndSend = async (onSuccess, onError) => {
