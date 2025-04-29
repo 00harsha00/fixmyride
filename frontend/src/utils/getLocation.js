@@ -1,3 +1,5 @@
+const API_BASE_URL = process.env.
+
 // src/utils/getLocation.js
 const getLocationAndSend = async (onSuccess, onError) => {
     if (!navigator.geolocation) {
@@ -11,7 +13,7 @@ const getLocationAndSend = async (onSuccess, onError) => {
   
         try {
           // Example API call to send location to the backend
-          const response = await fetch('http://localhost:5000/location', {
+          const response = await fetch('${API_BASE_URL}/location', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
