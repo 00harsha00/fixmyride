@@ -34,7 +34,7 @@ const CarLandingPage = () => {
 
         const type = 'car_repair';
         const response = await fetch(
-          `http://localhost:5000/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${type}`
+          `${API_BASE_URL}/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${type}`
         );
 
         const nearbyData = await response.json();
