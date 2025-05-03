@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import getLocationAndSend from '../utils/getLocation';
-
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:5000'; // Default to local server if not set
 const useNearbyPlaces = (baseUrl) => {
     const [nearbyPlaces, setNearbyPlaces] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ const useNearbyPlaces = (baseUrl) => {
                 async (data) => {
                     const { latitude, longitude } = data;
                     const response = await fetch(
-                        `${baseUrl}/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${placeType}`
+                        `${BASE_URL}/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${placeType}`
                     );
                     const nearbyData = await response.json();
                     if (nearbyData.status === 'success' && Array.isArray(nearbyData.data)) {

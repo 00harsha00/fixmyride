@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/OrdersPage.css';
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const OrdersPage = () => {
   const { token } = useContext(AuthContext);
@@ -12,23 +12,39 @@ const OrdersPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/api/orders`, {
+        const response = await fetch(`${BASE_URL}/api/admin/orders`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await response.json();
-        if (data.status === 'success') {
-          setOrders(data.data);
+        console.log('Orders API response:', data); // Log for debugging
+        if (data.status === 'success' && Array.isArray(data.data)) {
+          // Filter out invalid orders
+          const validOrders = data.data.filter(
+            order =>
+              order &&
+              typeof order === 'object' &&
+              order.items &&
+              Array.isArray(order.items) &&
+              order.customer &&
+              typeof order.customer === 'object'
+          );
+          setOrders(validOrders);
         } else {
-          setError(data.message);
+          setError(data.msg || 'Failed to load orders');
         }
       } catch (err) {
-        setError('Failed to fetch orders');
+        setError('Failed to fetch orders: ' + err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchOrders();
+    if (token) {
+      fetchOrders();
+    } else {
+      setError('Please log in to view your orders');
+      setLoading(false);
+    }
   }, [token]);
 
   if (loading) return <div className="loading-spinner">Loading...</div>;
@@ -42,13 +58,15 @@ const OrdersPage = () => {
           {orders.map((order) => (
             <div key={order._id} className="order-item">
               <h3>Order #{order._id}</h3>
-              <p>Status: {order.status}</p>
-              <p>Total: ${order.totalAmount.toFixed(2)}</p>
+              <p>Status: {order.status || 'Unknown'}</p>
+              <p>Total: ${(order.totalAmount || 0).toFixed(2)}</p>
               <div className="order-items">
                 {order.items.map((item) => (
                   <div key={item._id} className="order-product">
-                    <p>{item.productId.name} x {item.quantity}</p>
-                    <p>${item.price.toFixed(2)}</p>
+                    <p>
+                      {(item.productId?.name || 'Unknown Product')} x {item.quantity || 0}
+                    </p>
+                    <p>${(item.price || 0).toFixed(2)}</p>
                   </div>
                 ))}
               </div>

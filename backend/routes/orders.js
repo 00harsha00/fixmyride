@@ -8,7 +8,12 @@ const authenticateToken = require('../middleware/authenticateToken');
 router.get('/', authenticateToken, async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.user.userId }).populate('items.productId');
-    res.json({ status: 'success', data: orders });
+    // Filter out invalid items in each order
+    const validOrders = orders.map(order => {
+      order.items = order.items.filter(item => item.productId);
+      return order;
+    }).filter(order => order.items.length > 0);
+    res.json({ status: 'success', data: validOrders });
   } catch (err) {
     console.error('Error fetching orders:', err);
     res.status(500).json({ msg: 'Server error' });
@@ -21,6 +26,12 @@ router.post('/', authenticateToken, async (req, res) => {
     const cart = await Cart.findOne({ userId: req.user.userId }).populate('items.productId');
     if (!cart || cart.items.length === 0) {
       return res.status(400).json({ msg: 'Cart is empty' });
+    }
+
+    // Filter out invalid items
+    cart.items = cart.items.filter(item => item.productId);
+    if (cart.items.length === 0) {
+      return res.status(400).json({ msg: 'No valid items in cart' });
     }
 
     const items = cart.items.map(item => ({

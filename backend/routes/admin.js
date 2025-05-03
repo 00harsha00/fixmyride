@@ -42,7 +42,12 @@ router.delete('/users/:id', async (req, res) => {
 router.get('/orders', async (req, res) => {
   try {
     const orders = await Order.find().populate('userId', 'username email').populate('items.productId');
-    res.json({ status: 'success', data: orders });
+    // Filter out invalid items in each order
+    const validOrders = orders.map(order => {
+      order.items = order.items.filter(item => item.productId);
+      return order;
+    }).filter(order => order.items.length > 0);
+    res.json({ status: 'success', data: validOrders });
   } catch (err) {
     console.error('Error fetching orders:', err);
     res.status(500).json({ msg: 'Server error' });

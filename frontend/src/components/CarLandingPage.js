@@ -29,46 +29,24 @@ const CarLandingPage = () => {
     const [productsLoading, setProductsLoading] = useState(false);
     const [productsError, setProductsError] = useState(null);
     const [quantities, setQuantities] = useState({});
+    const [photoErrors, setPhotoErrors] = useState({});
 
     const images = [supercar1, supercar2, supercar3, supercar4, supercar5, supercar6];
 
-  const handleGetStarted = () => {
-    setLoading(true);
-
-    getLocationAndSend(
-      async (data) => {
-        alert('Location sent successfully!');
-
-        const { latitude, longitude } = data;
-
-        const type = 'car_repair';
-        const response = await fetch(
-          `${BASE_URL}/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${type}`
-        );
-
-        const nearbyData = await response.json();
-        console.log('Nearby Data:', nearbyData.data); // Debug the data
-
-        if (nearbyData.status === 'success') {
-          // Filter out invalid entries
-          const validPlaces = nearbyData.data.filter(
-            (place) =>
-              place &&
-              place.id &&
-              place.name &&
-              place.latitude &&
-              place.longitude
-          );
-
-          setNearbyPlaces(validPlaces);
-        } else {
-          alert(nearbyData.message || 'No nearby Car mechanics found');
-          setNearbyPlaces([]);
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        if (params.get('demo') === 'true' && !showDemo) {
+            toggleDemo();
         }
     }, [location.search]);
 
     const handleGetStarted = () => {
-        fetchNearbyPlaces('car_repair');
+        console.log('Fetching nearby places with type: car_repair');
+        fetchNearbyPlaces('car_repair').then(() => {
+            console.log('Nearby places fetched:', nearbyPlaces);
+        }).catch((err) => {
+            console.error('Error in fetchNearbyPlaces:', err);
+        });
     };
 
     const fetchProducts = async () => {
@@ -192,6 +170,28 @@ const CarLandingPage = () => {
         }));
     };
 
+    const handleImageError = (placeId, e) => {
+        if (!photoErrors[placeId]) {
+            setPhotoErrors((prev) => ({
+                ...prev,
+                [placeId]: { count: 1, timestamp: Date.now() },
+            }));
+            setTimeout(() => {
+                e.target.src = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${placeId}&key=${GOOGLE_MAPS_API_KEY}`;
+            }, 1000 * Math.pow(2, photoErrors[placeId]?.count || 1));
+        } else if (photoErrors[placeId].count < 3) {
+            setPhotoErrors((prev) => ({
+                ...prev,
+                [placeId]: { count: prev[placeId].count + 1, timestamp: Date.now() },
+            }));
+            setTimeout(() => {
+                e.target.src = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${placeId}&key=${GOOGLE_MAPS_API_KEY}`;
+            }, 1000 * Math.pow(2, photoErrors[placeId].count));
+        } else {
+            e.target.src = defaultCarMechanic;
+        }
+    };
+
     return (
         <section className="car-landing-section">
             <div className="car-landing-content">
@@ -220,6 +220,7 @@ const CarLandingPage = () => {
                         src={image}
                         alt={`Car ${index + 1}`}
                         className="car-image"
+                        loading="lazy"
                     />
                 ))}
             </div>
@@ -258,8 +259,10 @@ const CarLandingPage = () => {
                                     </div>
                                     <div className="auto-part-image">
                                         <img
-                                            src= {part.image} // Replace with part.image if available
+                                            src={part.image || defaultCarMechanic}
                                             alt={part.name}
+                                            onError={(e) => (e.target.src = defaultCarMechanic)}
+                                            loading="lazy"
                                         />
                                     </div>
                                     <div className="auto-part-details">
@@ -323,11 +326,12 @@ const CarLandingPage = () => {
                                         <img
                                             src={
                                                 place.photo_reference
-                                                    ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${place.photo_reference}&key=${GOOGLE_MAPS_API_KEY}`
+                                                    ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${place.photo_reference}&key=${GOOGLE_MAPS_API_KEY}`
                                                     : defaultCarMechanic
                                             }
                                             alt={place.name}
-                                            onError={(e) => (e.target.src = defaultCarMechanic)}
+                                            onError={(e) => handleImageError(place.photo_reference, e)}
+                                            loading="lazy"
                                         />
                                     </div>
                                     <div className="place-details">
@@ -379,8 +383,13 @@ const CarLandingPage = () => {
                     Google Maps API key is missing. Please check your environment variables.
                 </div>
             )}
+            {Object.keys(photoErrors).length > 0 && (
+                <div className="error-message">
+                    Some photos failed to load due to API limits. Please try again later.
+                </div>
+            )}
         </section>
     );
 };
-}
+
 export default CarLandingPage;

@@ -8,7 +8,9 @@ const authenticateToken = require('../middleware/authenticateToken');
 router.get('/', authenticateToken, async (req, res) => {
   try {
     const wishlistItems = await Wishlist.find({ userId: req.user.userId }).populate('productId');
-    res.json({ status: 'success', data: wishlistItems });
+    // Filter out items where productId is null
+    const validWishlistItems = wishlistItems.filter(item => item.productId);
+    res.json({ status: 'success', data: validWishlistItems });
   } catch (err) {
     console.error('Error fetching wishlist:', err);
     res.status(500).json({ msg: 'Server error' });

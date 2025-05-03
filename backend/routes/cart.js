@@ -11,6 +11,8 @@ router.get('/', authenticateToken, async (req, res) => {
     if (!cart) {
       return res.json({ status: 'success', data: { userId: req.user.userId, items: [] } });
     }
+    // Filter out items where productId is null
+    cart.items = cart.items.filter(item => item.productId);
     res.json({ status: 'success', data: cart });
   } catch (err) {
     console.error('Error fetching cart:', err);
@@ -45,7 +47,9 @@ router.post('/add', authenticateToken, async (req, res) => {
     }
 
     await cart.save();
-    res.json({ status: 'success', data: cart });
+    const updatedCart = await Cart.findOne({ userId: req.user.userId }).populate('items.productId');
+    updatedCart.items = updatedCart.items.filter(item => item.productId);
+    res.json({ status: 'success', data: updatedCart });
   } catch (err) {
     console.error('Error adding to cart:', err);
     res.status(500).json({ msg: 'Server error' });
@@ -64,7 +68,9 @@ router.delete('/remove/:productId', authenticateToken, async (req, res) => {
 
     cart.items = cart.items.filter(item => item.productId.toString() !== productId);
     await cart.save();
-    res.json({ status: 'success', data: cart });
+    const updatedCart = await Cart.findOne({ userId: req.user.userId }).populate('items.productId');
+    updatedCart.items = updatedCart.items.filter(item => item.productId);
+    res.json({ status: 'success', data: updatedCart });
   } catch (err) {
     console.error('Error removing from cart:', err);
     res.status(500).json({ msg: 'Server error' });

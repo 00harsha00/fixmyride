@@ -35,4 +35,17 @@ const productSchema = new mongoose.Schema({
   },
 });
 
+// Clean up references before removing a product
+productSchema.pre('remove', async function (next) {
+  try {
+    const productId = this._id;
+    await Cart.updateMany({}, { $pull: { items: { productId } } });
+    await Order.updateMany({}, { $pull: { items: { productId } } });
+    await Wishlist.deleteMany({ productId });
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = mongoose.model('Product', productSchema);

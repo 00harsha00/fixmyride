@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 // src/utils/getLocation.js
 const getLocationAndSend = async (onSuccess, onError) => {
@@ -12,7 +12,7 @@ const getLocationAndSend = async (onSuccess, onError) => {
           const { latitude, longitude } = position.coords;
 
           try {
-              const response = await fetch('${BASE_URL}/location', {
+              const response = await fetch(`${BASE_URL}/location`, {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',
