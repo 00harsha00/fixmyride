@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Import useAuth
+import { AuthContext } from '../context/AuthContext';
+import DropdownMenu from './DropdownMenu';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { user, logout, cartCount } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(null);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
+  const handleMouseEnter = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      setTimeoutId(null);
+    }
+    setIsDropdownOpen(true);
   };
+
+  const handleMouseLeave = () => {
+    const id = setTimeout(() => {
+      setIsDropdownOpen(false);
+    }, 1000);
+    setTimeoutId(id);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [timeoutId]);
 
   return (
     <nav className="navbar">
@@ -23,11 +44,22 @@ const Navbar = () => {
         <li><Link to="/bike">Bike</Link></li>
         <li><Link to="/gas">Gas</Link></li>
         <li><Link to="/community">Community</Link></li>
-        {isAuthenticated ? (
-          <li>
-            <button onClick={handleLogout} className="nav-button">
-              Logout
-            </button>
+        {user ? (
+          <li
+            className="user-dropdown"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <span className="username">
+              {user.username}
+              {cartCount > 0 && <sup className="cart-count">{cartCount}</sup>}
+            </span>
+            {isDropdownOpen && (
+              <DropdownMenu
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              />
+            )}
           </li>
         ) : (
           <li><Link to="/login">Login/Signup</Link></li>

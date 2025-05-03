@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Build output
+build/
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS or Editor files
+.DS_Store
+*.swp
+
+# Package lock (optional, if you manage dependencies manually)
+package-lock.json

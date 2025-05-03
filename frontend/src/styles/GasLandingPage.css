@@ -1,5 +1,4 @@
-/* styles/CarLandingPage.css */
-.car-landing-section {
+.gas-landing-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -9,11 +8,11 @@
   flex-wrap: wrap;
 }
 
-.car-landing-content {
+.gas-landing-content {
   max-width: 50%;
 }
 
-.car-landing-content h1 {
+.gas-landing-content h1 {
   font-size: 3.5rem;
   font-weight: 700;
   color: #1e3a8a;
@@ -21,14 +20,14 @@
   line-height: 1.2;
 }
 
-.car-landing-content p {
+.gas-landing-content p {
   font-size: 1.2rem;
   color: #4a5568;
   margin-bottom: 2rem;
   line-height: 1.6;
 }
 
-.car-landing-buttons {
+.gas-landing-buttons {
   display: flex;
   gap: 1.5rem;
   align-items: center;
@@ -50,6 +49,11 @@
   background-color: #2563eb;
 }
 
+.get-started-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
 .live-demo-link {
   color: #1e3a8a;
   font-size: 1.1rem;
@@ -65,28 +69,27 @@
   color: #2563eb;
 }
 
-.car-landing-images {
+.gas-landing-images {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 2 columns */
   grid-template-rows: repeat(2, 1fr); /* 2 rows */
-  
-  gap: 1rem; /* Space between images */
+  gap: 1rem;
   width: 40%;
-  max-width: 400px; /* Limit the width to prevent stretching */
-  height: 400px; /* Fixed height to ensure proper grid */
-  position: relative; /* Ensure no absolute positioning causes overlap */
+  max-width: 400px;
+  height: 400px;
+  position: relative;
 }
 
-.car-image {
+.gas-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensure images cover the area without distortion */
+  object-fit: cover;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
-.car-image:hover {
+.gas-image:hover {
   transform: scale(1.05);
 }
 
@@ -283,137 +286,31 @@
   margin: 2rem 0;
 }
 
-/* No Products */
-.no-products {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #666;
-  margin: 2rem 0;
-}
-
-/* Nearby Places Section */
-.nearby-places {
-  width: 100%;
-  margin-top: 3rem;
-  padding: 2rem 0;
-  background: #f8fafc00; /* Light background for contrast */
-}
-
-.nearby-places h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1e3a8a;
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.places-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Use auto-fill instead of auto-fit */
-  gap: 1.5rem;
-  padding: 0 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  justify-items: start; /* Ensure cards start from the left */
-}
-
-.place-card {
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease;
-  width: 100%; /* Ensure the card takes full width of its grid cell */
-}
-
-.place-card:hover {
-  transform: translateY(-5px);
-}
-
-.place-image img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.place-details {
-  padding: 1rem 1.5rem;
-}
-
-.place-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.place-details h3 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-.directions-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.5rem;
-  color: #1e3a8a;
-  transition: color 0.3s ease;
-}
-
-.directions-btn:hover {
-  color: #2563eb;
-}
-
-.place-details p {
-  font-size: 0.95rem;
-  color: #666;
-  margin: 0.3rem 0;
-}
-
-.place-map {
-  width: 100%;
-  height: 200px;
-  border-top: 1px solid #e2e8f0;
-  transition: height 0.3s ease;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
-  .nearby-places {
-    padding: 1.5rem 0;
+  .gas-landing-section {
+    flex-direction: column;
+    padding: 2rem 1.5rem;
   }
 
-  .nearby-places h2 {
-    font-size: 2rem;
+  .gas-landing-content {
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
   }
 
-  .places-grid {
-    grid-template-columns: 1fr;
-    padding: 0 1rem;
-    gap: 1rem;
+  .gas-landing-content h1 {
+    font-size: 2.5rem;
   }
 
-  .place-image img {
-    height: 150px;
+  .gas-landing-content p {
+    font-size: 1rem;
   }
 
-  .place-details {
-    padding: 1rem;
-  }
-
-  .place-details h3 {
-    font-size: 1.2rem;
-  }
-
-  .place-details p {
-    font-size: 0.9rem;
-  }
-
-  .place-map {
-    height: 150px;
+  .gas-landing-images {
+    width: 100%;
+    max-width: 300px;
+    height: 300px;
   }
 
   .auto-parts-section h2 {
@@ -435,24 +332,17 @@
 }
 
 @media (max-width: 480px) {
-  .nearby-places h2 {
-    font-size: 1.8rem;
+  .gas-landing-content h1 {
+    font-size: 2rem;
   }
 
-  .place-image img {
-    height: 130px;
+  .gas-landing-content p {
+    font-size: 0.9rem;
   }
 
-  .place-details h3 {
-    font-size: 1.1rem;
-  }
-
-  .place-details p {
-    font-size: 0.85rem;
-  }
-
-  .place-map {
-    height: 130px;
+  .gas-landing-images {
+    max-width: 250px;
+    height: 250px;
   }
 
   .auto-parts-section h2 {
@@ -466,16 +356,4 @@
   .auto-part-details h3 {
     font-size: 1rem;
   }
-}
-
-.map-error {
-  width: 100%;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f8fafc;
-  color: #e53e3e;
-  font-size: 1rem;
-  border-top: 1px solid #e2e8f0;
 }

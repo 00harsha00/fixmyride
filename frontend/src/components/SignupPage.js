@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 import '../styles/AuthPage.css';
 import backgroundVideo from '../assets/background-video.mp4';
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const SignupPage = () => {
-  const { login } = useAuth();
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -15,19 +16,25 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signup', {
+      const response = await fetch(`${BASE_URL}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password }),
       });
       const data = await response.json();
+      console.log('Signup response:', data); // Log the response for debugging
       if (response.ok) {
-        login(data.token);
-        navigate('/'); // Redirect to homepage after signup
+        if (!data.user || !data.token) {
+          setError('Invalid signup response: Missing user or token');
+          return;
+        }
+        login(data.user, data.token);
+        navigate('/');
       } else {
-        setError(data.msg);
+        setError(data.msg || 'Signup failed');
       }
     } catch (err) {
+      console.error('Signup error:', err);
       setError('Something went wrong');
     }
   };
