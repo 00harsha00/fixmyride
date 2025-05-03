@@ -33,10 +33,38 @@ const GasLandingPage = () => {
 
     const images = [electricCar1, electricCar2, electricCar3, electricCar4, electricCar5, electricCar6];
 
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        if (params.get('demo') === 'true' && !showDemo) {
-            toggleDemo();
+  const handleGetStarted = () => {
+    setLoading(true);
+
+    getLocationAndSend(
+      async (data) => {
+        alert('Location sent successfully!');
+
+        const { latitude, longitude } = data;
+
+        const type = 'gas_station'; // Type for electric vehicle charging stations
+        const response = await fetch(
+          `${BASE_URL}/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${type}`
+        );
+
+        const nearbyData = await response.json();
+        console.log('Nearby Data:', nearbyData); // Debug the data
+
+        if (nearbyData.status === 'success') {
+          // Filter out invalid entries
+          const validPlaces = nearbyData.data.filter(
+            (place) =>
+              place &&
+              place.id &&
+              place.name &&
+              place.latitude &&
+              place.longitude
+          );
+
+          setNearbyPlaces(validPlaces);
+        } else {
+          alert(nearbyData.message || 'No nearby electric charging stations found');
+          setNearbyPlaces([]);
         }
     }, [location.search]);
 
@@ -356,5 +384,5 @@ const GasLandingPage = () => {
         </section>
     );
 };
-
+}
 export default GasLandingPage;

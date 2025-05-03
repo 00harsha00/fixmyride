@@ -1,3 +1,5 @@
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 // src/utils/getLocation.js
 const getLocationAndSend = async (onSuccess, onError) => {
   if (!navigator.geolocation) {
@@ -10,7 +12,7 @@ const getLocationAndSend = async (onSuccess, onError) => {
           const { latitude, longitude } = position.coords;
 
           try {
-              const response = await fetch('http://localhost:5000/location', {
+              const response = await fetch('${BASE_URL}/location', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',

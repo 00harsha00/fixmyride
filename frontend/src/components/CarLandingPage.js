@@ -32,10 +32,38 @@ const CarLandingPage = () => {
 
     const images = [supercar1, supercar2, supercar3, supercar4, supercar5, supercar6];
 
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        if (params.get('demo') === 'true' && !showDemo) {
-            toggleDemo();
+  const handleGetStarted = () => {
+    setLoading(true);
+
+    getLocationAndSend(
+      async (data) => {
+        alert('Location sent successfully!');
+
+        const { latitude, longitude } = data;
+
+        const type = 'car_repair';
+        const response = await fetch(
+          `${BASE_URL}/api/nearby?latitude=${latitude}&longitude=${longitude}&type=${type}`
+        );
+
+        const nearbyData = await response.json();
+        console.log('Nearby Data:', nearbyData.data); // Debug the data
+
+        if (nearbyData.status === 'success') {
+          // Filter out invalid entries
+          const validPlaces = nearbyData.data.filter(
+            (place) =>
+              place &&
+              place.id &&
+              place.name &&
+              place.latitude &&
+              place.longitude
+          );
+
+          setNearbyPlaces(validPlaces);
+        } else {
+          alert(nearbyData.message || 'No nearby Car mechanics found');
+          setNearbyPlaces([]);
         }
     }, [location.search]);
 
@@ -354,5 +382,5 @@ const CarLandingPage = () => {
         </section>
     );
 };
-
+}
 export default CarLandingPage;
